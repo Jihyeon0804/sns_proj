@@ -8,7 +8,7 @@
 	
 	<%-- 로그인 정보 --%>
 	<div class="login-info d-flex align-items-center mr-5">
-		<span>보람님 안녕하세요</span>
+		<span>지현님 안녕하세요</span>
 		<a href="/user/sign-out" class="ml-2 font-weight-bold">로그아웃</a>
 	</div>
 </div>

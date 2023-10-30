@@ -7,13 +7,17 @@
 			<form id="signInForm" method="post" action="user/signIn">
 				<div class="input-group mb-3">
 					<div class="input-group-prepend">
-						<span class="input-group-text" id="basic-addon1">@</span>
+						<span class="input-group-text" id="loginIdIcon">
+							<img src="/static/img/userIcon.png" width="20">
+						</span>
 					</div>
 					<input type="text" class="form-control" placeholder="Username">
 				</div>
 				<div class="input-group mb-3">
 					<div class="input-group-prepend">
-						<span class="input-group-text" id="basic-addon1">@</span>
+						<span class="input-group-text" id="passwordIcon">
+							<img src="/static/img/passwordIcon.png" width="20">
+						</span>
 					</div>
 					<input type="text" class="form-control" placeholder="password">
 				</div>
