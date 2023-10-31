@@ -13,7 +13,9 @@ header {height:80px; background-color:#ededed; color: #000;}
 .shadow-box {width:550px; background-color:#ebebeb; margin-top:20px; box-shadow:5px 5px 5px 5px #BDC0C0;}
 .login-box {width:400px;}
 
-.contents-box {width:650px;}
-#writeTextArea {height:100px;}
-
-.comment-input {width:565px;}
+.contents-box {width:650px; border-color: #ebebeb; border-style: solid; border-width: 1px;}
+.upload-box {height: 35px;}
+#writeTextArea {height:100px; border-style: none;}
+#timeline-box {width:650px; border-color: #ebebeb; border-style: solid; border-width: 1px;}
+.comment-input {width:565px; border-style: none;}
+.comment {border-bottom: #ebebeb; border-style: solid; border-width: 0px 0px 1px 0px;}

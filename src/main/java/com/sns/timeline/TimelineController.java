@@ -7,10 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping("/timeline")
 @Controller
-public class TimeLineController {
+public class TimelineController {
 
-	@GetMapping("list-view")
+	@GetMapping("/list-view")
 	public String listView(Model model) {
+		model.addAttribute("viewName", "/timeline/timelineList");
 		return "template/layout";
 	}
 }
