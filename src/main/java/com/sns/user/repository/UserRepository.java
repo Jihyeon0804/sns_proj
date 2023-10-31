@@ -10,4 +10,6 @@ import com.sns.user.entity.UserEntity;
 public interface UserRepository extends JpaRepository<UserEntity,Integer>{
 
 	public UserEntity findByLoginId(@Param("loginId") String loginId);
+	
+	public UserEntity findByLoginIdAndPassword(@Param("loginId") String loginId, @Param("password") String password);
 }
