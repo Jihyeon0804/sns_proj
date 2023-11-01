@@ -1,18 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="d-flex justify-content-center mt-3">
 	<div>
 		<%-- 로그인 상태인 경우 글쓰기 영역 활성화 --%>
+		<c:if test="${not empty userId}">
 		<div class="contents-box p-2 mb-3">
 			<textarea id="writeTextArea" class="w-100" placeholder="내용을 입력해주세요"></textarea>
 			<div class="upload-box d-flex justify-content-between">
-				<label for="file-upload">
+				<label for="imagePath">
 					<img alt="파일업로드" src="/static/img/uploadIcon.png" width="35">
 				</label>
-				<input type="file" id="file-upload" class="d-none">
-				<button type="submit" class="btn btn-info">게시</button>
+				<input type="file" id="imagePath" class="d-none" onChange="imagePathFunc()" >
+				<button type="submit" class="btn postBtn btn-info">게시</button>
 			</div>
 		</div>
+		</c:if>
 		
 		<%-- 타임라인 영역 --%>
 		<div id="timeline-box">
@@ -59,3 +62,18 @@
 		</div>
 	</div>
 </div>
+
+<script>
+$(document).ready(function() {
+	function imagePathFunc() {
+		
+	}
+	// 게시물 업로드
+	$('.postBtn').on('click', function() {
+		let imagePath = $('#imagePath').val();
+		let content = $('#writeTextArea').val();
+		console.log(imagePath);
+		console.log(content);
+	});
+});
+</script>
