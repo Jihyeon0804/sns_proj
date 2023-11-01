@@ -17,4 +17,14 @@ public class PostBO {
 	public List<PostEntity> getPostList() {
 		return postRepository.findAllByOrderByIdDesc();
 	}
+	
+	public PostEntity addPost(int userId, String content, String imagePath) {
+		
+		return postRepository.save(
+				PostEntity.builder()
+				.userId(userId)
+				.content(content)
+				.imagePath(imagePath)
+				.build());
+	}
 }
