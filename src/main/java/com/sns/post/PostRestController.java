@@ -24,20 +24,22 @@ public class PostRestController {
 	
 	/**
 	 * 업로드 API
-	 * @param PostContent
+	 * @param file
+	 * @param postContent
 	 * @param session
 	 * @return
 	 */
 	@PostMapping("/create")
 	public Map<String, Object> postCreate(
-			@RequestParam("file") MultipartFile fileName
+			@RequestParam("file") MultipartFile file
 			, @RequestParam(value="content", required=false) String postContent
 			, HttpSession session)  {
 		
+		// 로그인된 사용자의 아이디 저장
 		int userId = (int)session.getAttribute("userId");
-		String imagePath = "https://cdn.pixabay.com/photo/2023/10/28/19/54/chess-8348280_640.jpg";
+		
 		// db insert
-		PostEntity postEntity = postBO.addPost(userId, postContent, imagePath);
+		PostEntity postEntity = postBO.addPost(userId, postContent, file);
 		
 		
 		// 응답값
