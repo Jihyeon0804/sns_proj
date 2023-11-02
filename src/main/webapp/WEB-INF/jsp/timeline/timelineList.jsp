@@ -7,12 +7,17 @@
 		<c:if test="${not empty userId}">
 		<div class="contents-box p-2 mb-3">
 			<textarea id="writeTextArea" class="w-100" placeholder="내용을 입력해주세요"></textarea>
-			<div class="upload-box d-flex justify-content-between">
-				<label for="imagePath">
-					<img alt="파일업로드" src="/static/img/uploadIcon.png" width="35">
-				</label>
-				<input type="file" id="imagePath" class="d-none" onChange="imagePathFunc()" >
-				<button type="button" id="postBtn" class="btn btn-info">게시</button>
+				<%-- file 태그를 숨겨두고 이미지르 클릭하면 file 태그를 클릭한 효과 --%>
+				<%-- 이미지 업로드를 위한 아이콘과 업로드 버튼을 한 행에 멀리 떨어뜨리기 위한 div --%>
+			<div class="d-flex justify-content-between">
+				<div class="file-upload d-flex">
+					<input type="file" id="file" accept=".jpg, .png, .jpeg, .gif" class="d-none">
+					<a href="#" id="fileUploadBtn"><img width="35" src="/static/img/uploadIcon.png"></a>
+					
+					<%-- 업로드 된 임시 파일명 노출 --%>
+					<div id="fileName" class="ml-2 d-flex align-items-center"></div>
+				</div>
+				<button id="postBtn" class="btn btn-info">게시</button>
 			</div>
 		</div>
 		</c:if>
@@ -67,15 +72,64 @@
 
 <script>
 $(document).ready(function() {
+	// 파일 이미지 클릭 => 숨겨져 있던 type="file"을 동작시킨다.
+	$('#fileUploadBtn').on('click', function(e) {
+		e.preventDefault();
+		$('#file').click();
+	});
+	
+	
+	// 이미지를 선택하는 순간 -> 유효성 확인 및 업로드 된 파일명 노출
+	$('#file').on('change', function(e) {
+		// 파일명 가져오기
+		let fileName = e.target.files[0].name;		// chess-8348280_640.jpg
+		console.log(fileName);
+		
+		// 확장자 유효성 확인
+		let ext = fileName.split(".").pop().toLowerCase();
+		
+		if (ext != 'jpg' && ext != 'gif' && ext != 'png' && ext != 'jpeg') {
+			alert("이미지 파일만 업로드 할 수 있습니다.");
+			$('#file').val("");			// 파일 태그에 파일 제거(보이지 않지만 업로드 될 수 있으므로 주의)
+			$('#fileName').text("");	// 파일명 비우기
+			return;
+		}
+		
+		// 유효성 통과한 이미지는 업로드 된 파일명 노출
+		$('#fileName').text(fileName);
+	});
+	
+	
 	// 게시물 업로드
 	$('#postBtn').on('click', function() {
+		let fileName = $('#file').val();
 		let content = $('#writeTextArea').val();
+		console.log(fileName);
+		
+		if (fileName) {
+			let ext = fileName.split(".").pop().toLowerCase();
+			
+			if (ext != 'jpg' && ext != 'gif' && ext != 'png' && ext != 'jpeg') {
+				alert("이미지 파일만 업로드 할 수 있습니다.");
+				$('#file').val("");			// 파일 태그에 파일 제거(보이지 않지만 업로드 될 수 있으므로 주의)
+				$('#fileName').text("");	// 파일명 비우기
+				return;
+			}
+			
+		}
+		
+		let formData = new FormData();
+		formData.append("file", $('#file')[0].files[0]);
+		formData.append("content", content);
 		
 		$.ajax({
 			// request
 			type:"post"
 			, url:"/post/create"
-			, data:{"content":content}
+			, data:formData
+			, enctype:"multipart/formdata"
+			, processData:false
+			, contentType:false
 			
 			// response
 			, success:function(data) {
