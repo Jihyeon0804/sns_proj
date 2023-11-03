@@ -26,7 +26,7 @@
 		<c:forEach items="${postList}" var="post">
 		<div id="timeline-box" class="mb-5">
 			<%-- 사용자 이름 --%>
-			<div class="d-flex justify-content-between m-2">
+			<div class="d-flex justify-content-between align-items-center m-2">
 				<span class="font-weight-bold ml-2">${post.userId}</span>
 				<img alt="더보기" src="/static/img/more-icon.png" width="30">
 			</div>
@@ -48,21 +48,21 @@
 			<div class="ml-2">
 				<div class="comment">댓글</div>
 				<div class="my-2">
+				<c:forEach items="${commentList}" var="comment">
+					<c:if test="${comment.postId eq post.id}">
 					<div>
-						<span>user1 :</span>
-						<span>댓글 내용</span>
+						<span>${comment.userId}</span>
+						<span class="mx-2">${comment.content}</span>
 					</div>
-					<div>
-						<span>user2 :</span>
-						<span>댓글 내용</span>
-					</div>
+					</c:if>
+				</c:forEach>
 				</div>
 			</div>
 			<%-- 댓글 입력 --%>
-			<div class="input-group">
+			<div id="commentBox" class="input-group">
 			  <input type="text" class="form-control comment-input" placeholder="댓글 달기">
 			  <div class="input-group-append">
-			    <button class="btn btn-light" type="button">게시</button>
+			    <button class="comment-btn btn btn-light" type="button" data-id="${post.id}">게시</button>
 			  </div>
 			</div>
 		</div>
@@ -139,6 +139,34 @@ $(document).ready(function() {
 				} else {
 					// 로직 상 실패
 					alert("업로드 실패")
+				}
+			}
+			, error:function(request, status, error) {
+				alert(data.errorMessage)
+			}
+		});
+		
+	});	// -- 게시물 업로드 끝
+	
+	// 댓글 쓰기
+	$('.comment-btn').on('click', function() {
+		let postId = $(this).data("id");
+		let comment = $(this).closest('div').parent().find('input').val();
+		console.log(postId)
+		console.log(comment)
+		
+		$.ajax({
+			//request
+			type:"post"
+			, url:"/comment/create"
+			, data:{"postId":postId, "comment":comment}
+			
+			// response
+			, success:function(data) {
+				if(data.code == 200) {
+					location.reload();
+				} else {
+					alert("다시 시도해주세요.")
 				}
 			}
 			, error:function(request, status, error) {

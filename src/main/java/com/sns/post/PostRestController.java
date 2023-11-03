@@ -44,9 +44,16 @@ public class PostRestController {
 		
 		// 응답값
 		Map<String, Object> result = new HashMap<>();
-		result.put("postEntity", postEntity);
-		result.put("code", 200);
-		result.put("result", "성공");
+		
+		if (postEntity != null) {
+			result.put("postEntity", postEntity);
+			result.put("code", 200);
+			result.put("result", "성공");
+		} else {
+			result.put("code", 500);
+			result.put("errorMessage", "업로드에 실패했습니다.");
+		}
+		
 		return result;
 	}
 	

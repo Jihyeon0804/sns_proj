@@ -14,7 +14,8 @@ public class FileManagerService {
 
 	// 게시된 이미지를 저장할 폴더의 경로
 	// workspace/images/userId_ms 형태로 저장할 것임
-	public static final String FILE_UPLOAD_PATH = "C:\\Users\\cam08\\Desktop\\학원\\5_project\\sns\\workspace\\images/";
+//	public static final String FILE_UPLOAD_PATH = "C:\\Users\\cam08\\Desktop\\학원\\5_project\\sns\\workspace\\images/";
+	public static final String FILE_UPLOAD_PATH = "D:\\김지현\\5_spring_project\\sns\\workspace\\images/";
 	
 	// 이미지 저장 메소드
 	// input : userId, file(이미지)
