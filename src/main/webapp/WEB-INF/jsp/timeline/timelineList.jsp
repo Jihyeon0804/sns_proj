@@ -154,7 +154,10 @@ $(document).ready(function() {
 		let comment = $(this).closest('div').parent().find('input').val();
 		console.log(postId)
 		console.log(comment)
-		
+		if (!comment) {
+			alert("댓글을 입력해주세요.");
+			return;
+		}
 		$.ajax({
 			//request
 			type:"post"
