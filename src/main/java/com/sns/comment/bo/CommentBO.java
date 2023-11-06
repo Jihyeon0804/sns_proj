@@ -57,9 +57,11 @@ public class CommentBO {
 			// commentViewList에 담기
 			commentViewList.add(commentView);
 		}
-		
-		
-		
+
 		return commentViewList;
+	}
+	
+	public void deleteCommentById(int id) {
+		commentMapper.deleteCommentById(id);
 	}
 }

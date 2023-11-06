@@ -47,8 +47,8 @@ public class TimelineBO {
 			cardview.setUser(user);
 			
 			// 댓글들
-			List<CommentView> commentViewList = commentBO.generateCommentViewListByPostId(post.getId());
-			cardview.setCommentViewList(commentViewList);
+			List<CommentView> commentList = commentBO.generateCommentViewListByPostId(post.getId());
+			cardview.setCommentList(commentList);
 			
 			// 좋아요 카운트
 			

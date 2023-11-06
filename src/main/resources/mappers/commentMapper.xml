@@ -38,13 +38,19 @@
 		SELECT
 			`id`
 			,`postId`
-			, `userId`
-			, `content`
-			, `createdAt`
-			, `updatedAt`
+			,`userId`
+			,`content`
+			,`createdAt`
+			,`updatedAt`
 		FROM
-		 `comment`
+			`comment`
 		WHERE
 			`postId` = #{postId}
 	</select>
+	
+	<delete id="deleteCommentById" parameterType="int">
+		DELETE FROM `comment`
+		WHERE
+			`id` = #{id}
+	</delete>
 </mapper>

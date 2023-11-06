@@ -19,7 +19,7 @@ public class CardView {
 	private UserEntity user;
 	
 	// 해당 글과 매핑되는 댓글들
-	private List<CommentView> commentViewList;
+	private List<CommentView> commentList;
 	
 	// 좋아요 개수
 	

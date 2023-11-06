@@ -48,13 +48,15 @@
 			<div class="ml-2">
 				<div class="comment">댓글</div>
 				<div class="my-2">
+					<c:forEach items="${card.commentList}" var="comment">
 					<div>
-						<span>${card.commentViewList.user.userId}</span>
-						<span class="mx-2">${card.commentViewList.comment.content}</span>
-						<a href="#" class="comment-del-btn">						
+						<span>${comment.user.loginId}</span>
+						<span class="mx-2">${comment.comment.content}</span>
+						<a href="/comment/delete?commentId=${comment.comment.id}" class="comment-del-btn">						
 							<img alt="댓글 삭제" src="/static/img/x-icon.png" width="10">
 						</a>
 					</div>
+					</c:forEach>
 				</div>
 			</div>
 			<%-- 댓글 입력 --%>
