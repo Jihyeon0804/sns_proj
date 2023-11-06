@@ -34,15 +34,23 @@ public class CommentRestController {
 			@RequestParam("comment") String comment,
 			HttpSession session) {
 		
-		// 댓글 작성한 사람의 아이디
-		int userId = (int)session.getAttribute("userId");
+		// 댓글 작성한 사람의 아이디(현재 로그인 된 사람)
+		Integer userId = (Integer)session.getAttribute("userId");
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		if (userId == null) {
+			result.put("code", 500);
+			result.put("errorMessage", "로그인을 해주세요.");
+		}
 		
 		// db insert
 		commentBO.addComment(postId, userId, comment);
 		
 		// 응답값
-		Map<String, Object> result = new HashMap<>();
 		result.put("code", 200);
+		result.put("result", "성공");
+		
 		return result;
 	}
 

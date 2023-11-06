@@ -23,16 +23,16 @@
 		</c:if>
 		
 		<%-- 타임라인 영역 --%>
-		<c:forEach items="${postList}" var="post">
+		<c:forEach items="${cardViewList}" var="card">
 		<div id="timeline-box" class="mb-5">
 			<%-- 사용자 이름 --%>
 			<div class="d-flex justify-content-between align-items-center m-2">
-				<span class="font-weight-bold ml-2">${post.userId}</span>
+				<span class="font-weight-bold ml-2">${card.user.loginId}</span>
 				<img alt="더보기" src="/static/img/more-icon.png" width="30">
 			</div>
 			<%-- 게시글 사진 --%>
 			<div>
-				<img src="${post.imagePath}" width="650">
+				<img src="${card.post.imagePath}" width="650">
 			</div>
 			<%-- 좋아요 --%>
 			<div class="d-flex align-items-center m-2">
@@ -41,28 +41,27 @@
 				<span class="ml-2">11개</span>
 			</div>
 			<div class="my-3">
-				<span class="font-weight-bold ml-2">${post.userId}</span>
-				<span>${post.content}</span>
+				<span class="font-weight-bold ml-2">${card.user.loginId}</span>
+				<span>${card.post.content}</span>
 			</div>
 			<%-- 댓글 목록 --%>
 			<div class="ml-2">
 				<div class="comment">댓글</div>
 				<div class="my-2">
-				<c:forEach items="${commentList}" var="comment">
-					<c:if test="${comment.postId eq post.id}">
 					<div>
-						<span>${comment.userId}</span>
-						<span class="mx-2">${comment.content}</span>
+						<span>${card.commentViewList.user.userId}</span>
+						<span class="mx-2">${card.commentViewList.comment.content}</span>
+						<a href="#" class="comment-del-btn">						
+							<img alt="댓글 삭제" src="/static/img/x-icon.png" width="10">
+						</a>
 					</div>
-					</c:if>
-				</c:forEach>
 				</div>
 			</div>
 			<%-- 댓글 입력 --%>
 			<div id="commentBox" class="input-group">
 			  <input type="text" class="form-control comment-input" placeholder="댓글 달기">
 			  <div class="input-group-append">
-			    <button class="comment-btn btn btn-light" type="button" data-id="${post.id}">게시</button>
+			    <button class="comment-btn btn btn-light" type="button" data-post-id="${card.post.id}">게시</button>
 			  </div>
 			</div>
 		</div>
@@ -150,7 +149,7 @@ $(document).ready(function() {
 	
 	// 댓글 쓰기
 	$('.comment-btn').on('click', function() {
-		let postId = $(this).data("id");
+		let postId = $(this).data("post-id");
 		let comment = $(this).closest('div').parent().find('input').val();
 		console.log(postId)
 		console.log(comment)
@@ -158,6 +157,8 @@ $(document).ready(function() {
 			alert("댓글을 입력해주세요.");
 			return;
 		}
+		
+		// ajax
 		$.ajax({
 			//request
 			type:"post"
@@ -168,12 +169,13 @@ $(document).ready(function() {
 			, success:function(data) {
 				if(data.code == 200) {
 					location.reload();
-				} else {
-					alert("다시 시도해주세요.")
+				} else if (data.code == 50) {
+					alert(data.errorMessage);
+					location.href="/user/sign-in-view"
 				}
 			}
 			, error:function(request, status, error) {
-				alert(data.errorMessage)
+				alert("댓글 쓰기 실패했습니다.")
 			}
 		});
 		

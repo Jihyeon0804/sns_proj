@@ -12,6 +12,13 @@ public class UserBO {
 	@Autowired
 	private UserRepository userRepository;
 	
+	// ---- 객체 가져오기 -----
+	// input : userId
+	// output : UserEntity
+	public UserEntity getUserEntityById(int userId) {
+		return userRepository.findById(userId).orElse(null);
+	}
+	
 	// ---- 아이디 중복 확인 -----
 	// input : loginId
 	// output : UserEntity
