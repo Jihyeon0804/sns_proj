@@ -24,19 +24,27 @@
 		
 		<%-- 타임라인 영역 --%>
 		<c:forEach items="${cardViewList}" var="card">
-		<div id="timeline-box" class="mb-5">
+		<div id="timeline-box" class="my-5">
 		
 			<%-- 사용자 이름 --%>
 			<div class="d-flex justify-content-between align-items-center m-2">
 				<span class="font-weight-bold ml-2">${card.user.loginId}</span>
 				<div class="d-flex">
-				<!--
-				<c:if test="${card.user.id ne userId}">
-					<button type="button" class="follow-btn btn btn-primary btn-sm mr-2">팔로우</button>
-					<button type="button" class="unfollow-btn btn btn-secondary btn-sm mr-2 d-none">팔로잉</button>
-				</c:if>
-				  -->
-					<img alt="더보기" src="/static/img/more-icon.png" width="30" class="more-btn">
+					<%-- 나를 제외한 사용자에게 팔로우 버튼 노출 --%>
+					<c:if test="${card.user.id ne userId}">
+						<c:if test="${card.followStatus eq false}">
+						<a type="button" class="follow-btn btn-sm btn-primary" data-followed-id="${card.user.id}">
+							<span class="m-2">팔로우</span>
+						</a>
+						</c:if>
+						
+						<c:if test="${card.followStatus eq true}">
+						<a type="button" class="follow-btn btn-sm btn-secondary" data-followed-id="${card.user.id}">
+							<span class="m-2">팔로잉</span>
+						</a>
+						</c:if>
+					</c:if>
+					<img alt="더보기" src="/static/img/more-icon.png" width="30" class="more-btn ml-2">
 				</div>
 			</div>
 			
@@ -47,16 +55,25 @@
 			
 			<%-- 좋아요 --%>
 			<div class="d-flex align-items-center m-2">
+			<c:choose>
+				<%-- 좋아요를 누르지 않았을 경우(false) --%>
+				<c:when test="${card.filledLike eq false}">
 				<a href="#" class="like-btn" data-post-id="${card.post.id}">
-					<span>${card.filledLike}</span>
 					<img src="/static/img/heart-icon.png" width="20">
 				</a>
-				<a href="#" class="like-btn d-none" data-post-id="${card.post.id}">
-					<span>${card.filledLike}</span>
+				</c:when>
+				
+				<%-- 좋아요를 눌렀을 경우(true) --%>
+				<c:otherwise>
+				<a href="#" class="like-btn" data-post-id="${card.post.id}">
 					<img src="/static/img/full-heart-icon.png" width="20">
 				</a>
+				</c:otherwise>
+			</c:choose>
 				<span class="ml-2">좋아요</span>
-				<span class="ml-2">${card.likeCount}</span>
+				<c:if test="${card.likeCount > 0}">
+					<span class="ml-2">${card.likeCount}</span>
+				</c:if>
 			</div>
 			<div class="my-3">
 				<span class="font-weight-bold ml-2">${card.user.loginId}</span>
@@ -259,6 +276,36 @@ $(document).ready(function() {
 			, error:function(request, status, error) {
 				alert("다시 시도해 주세요");
 			}
+		});
+	});
+	
+	// 팔로우 버튼
+	$('.follow-btn').on('click', function(e) {
+		e.preventDefault();
+		// alert("follow");
+		
+		let followedId = $(this).data("followed-id");
+		
+		$.ajax({
+			// request
+			type:"post"
+			, url:"/follow"
+			, data:{"followedId":followedId}
+			
+			
+			// response
+			, success:function(data) {
+				if (data.code == 200) {
+					location.reload();
+				} else if (data.code == 500) {
+					alert(data.errorMessage);
+					location.href="/user/sign-in/view";
+				}
+			}
+			, error:function() {
+				alert("잠시후 다시 시도해 주세요.");
+			}
+			
 		});
 	});
 });

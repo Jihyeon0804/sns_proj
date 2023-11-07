@@ -26,4 +26,7 @@ public class CardView {
 	
 	// 내가 좋아요를 눌렀는지 여부
 	private boolean filledLike;	// false - 빈 하트, true - 꽉 찬 하트
+	
+	// 내가 팔로우를 눌렀는지 여부
+	private boolean followStatus;	// false - 팔로우 버튼, true - 팔로잉 버튼
 }

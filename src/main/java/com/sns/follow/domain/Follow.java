@@ -1,18 +1,17 @@
 package com.sns.follow.domain;
 
+import java.util.Date;
+
 import lombok.Data;
 
 @Data
 public class Follow {
 
-	private int id;
+	// userId가 팔로우하는 사용자의 id
+	private int followedId;
 	
-	private int following;
+	// 팔로우 하는 사용자의 id(현재 로그인 된 userId)
+	private int followingId;
 	
-	private int followed;
-	
-	// 팔로우 상태
-	// false => 팔로우 버튼 활성화
-	// true => 팔로잉 버튼 활성화
-	private boolean followStatus;
+	private Date createdAt;
 }

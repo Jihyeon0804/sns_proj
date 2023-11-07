@@ -36,7 +36,8 @@ public class TimelineController {
 		
 		
 		// 게시글과 댓글이 담겨진 CardView를 뿌리는 방식
-		List<CardView> cardViewList = timelineBO.generateCardViewList();
+		Integer userId = (Integer)session.getAttribute("userId");
+		List<CardView> cardViewList = timelineBO.generateCardViewList(userId);
 		
 //		model.addAttribute("commentList", commentList);
 //		model.addAttribute("postList", postList);
