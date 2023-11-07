@@ -19,3 +19,4 @@ header {height:80px; background-color:#ededed; color: #000;}
 #timeline-box {width:650px; border-color: #ebebeb; border-style: solid; border-width: 1px;}
 .comment-input {width:565px; border-style: none;}
 .comment {border-bottom: #ebebeb; border-style: solid; border-width: 0px 0px 1px 0px;}
+#commentBox  {border-top: #ebebeb; border-style: solid; border-width: 1px 0px 0px 0px;}

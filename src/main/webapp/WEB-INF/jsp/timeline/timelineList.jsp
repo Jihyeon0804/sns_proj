@@ -25,42 +25,56 @@
 		<%-- 타임라인 영역 --%>
 		<c:forEach items="${cardViewList}" var="card">
 		<div id="timeline-box" class="mb-5">
+		
 			<%-- 사용자 이름 --%>
 			<div class="d-flex justify-content-between align-items-center m-2">
 				<span class="font-weight-bold ml-2">${card.user.loginId}</span>
 				<div class="d-flex">
+				<!--
 				<c:if test="${card.user.id ne userId}">
 					<button type="button" class="follow-btn btn btn-primary btn-sm mr-2">팔로우</button>
 					<button type="button" class="unfollow-btn btn btn-secondary btn-sm mr-2 d-none">팔로잉</button>
 				</c:if>
+				  -->
 					<img alt="더보기" src="/static/img/more-icon.png" width="30" class="more-btn">
 				</div>
 			</div>
+			
 			<%-- 게시글 사진 --%>
 			<div>
 				<img src="${card.post.imagePath}" width="650">
 			</div>
+			
 			<%-- 좋아요 --%>
 			<div class="d-flex align-items-center m-2">
-				<img src="/static/img/full-heart-icon.png" width="20">
+				<a href="#" class="like-btn" data-post-id="${card.post.id}">
+					<span>${card.filledLike}</span>
+					<img src="/static/img/heart-icon.png" width="20">
+				</a>
+				<a href="#" class="like-btn d-none" data-post-id="${card.post.id}">
+					<span>${card.filledLike}</span>
+					<img src="/static/img/full-heart-icon.png" width="20">
+				</a>
 				<span class="ml-2">좋아요</span>
-				<span class="ml-2">11개</span>
+				<span class="ml-2">${card.likeCount}</span>
 			</div>
 			<div class="my-3">
 				<span class="font-weight-bold ml-2">${card.user.loginId}</span>
 				<span>${card.post.content}</span>
 			</div>
+			
 			<%-- 댓글 목록 --%>
 			<div class="ml-2">
 				<div class="comment">댓글</div>
 				<div class="my-2">
 					<c:forEach items="${card.commentList}" var="comment">
-					<div>
-						<span>${comment.user.loginId}</span>
+					<div class="card-comment">
+						<span class="font-weight-bold">${comment.user.loginId}</span>
 						<span class="mx-2">${comment.comment.content}</span>
+						
 						<%-- 내가(현재 로그인된 사용자) 쓴 댓글에만 삭제 버튼 생성 --%>
 						<c:if test="${comment.user.id eq userId}">
-						<a href="/comment/delete?commentId=${comment.comment.id}" class="comment-del-btn">						
+						<a href="#" class="comment-del-btn" data-comment-id="${comment.comment.id}">						
 							<img alt="댓글 삭제" src="/static/img/x-icon.png" width="10">
 						</a>
 						</c:if>
@@ -68,6 +82,7 @@
 					</c:forEach>
 				</div>
 			</div>
+			
 			<%-- 댓글 입력 --%>
 			<div id="commentBox" class="input-group">
 			  <input type="text" class="form-control comment-input" placeholder="댓글 달기">
@@ -192,16 +207,59 @@ $(document).ready(function() {
 		
 	});
 	
-	// 게시글 삭제
-	$('.more-btn').on('click', function() {
+	// 댓글 삭제
+	$('.comment-del-btn').on('click', function(e) {
+		// alert("댓글 삭제 클릭");
+		e.preventDefault();		// a 태그의 위로 올라가는 현상 방지
 		
+		let commentId = $(this).data("comment-id");
+		// alert(commentId);
+		
+		// ajax
+		$.ajax({
+			// request
+			type:"delete"
+			, url:"/comment/delete"
+			, data:{"commentId":commentId}
+		
+			// response
+			, success:function(data) {
+				if (data.code=200) {
+					location.reload();
+				} else {
+					alert(data.errorMessage);
+				}
+			}
+			, error:function(request, status, error) {
+				alert("댓글 삭제 하는데 실패했습니다.");
+			}
+		});
 	});
 	
-	
-	// 팔로우 버튼
-	$('.follow-btn').on('click', function() {
-		$(this).addClass('d-none');
-		$(this).siblings().removeClass('d-none');
+	// 좋아요 버튼
+	$('.like-btn').on('click', function(e) {
+		// alert("like");
+		e.preventDefault();
+		
+		let postId = $(this).data("post-id");
+		
+		$.ajax({
+			// request
+			url:"/like/"+postId
+			// data X (postId 자체가 parameter로 넘어감)
+			
+			// response
+			, success:function(data) {
+				if (data.code == 200) {
+					location.reload();
+				} else if (data.code == 500) {
+					alert(data.errorMessage);
+				}
+			}
+			, error:function(request, status, error) {
+				alert("다시 시도해 주세요");
+			}
+		});
 	});
 });
 </script>
