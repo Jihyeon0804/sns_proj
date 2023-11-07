@@ -28,7 +28,13 @@
 			<%-- 사용자 이름 --%>
 			<div class="d-flex justify-content-between align-items-center m-2">
 				<span class="font-weight-bold ml-2">${card.user.loginId}</span>
-				<img alt="더보기" src="/static/img/more-icon.png" width="30">
+				<div class="d-flex">
+				<c:if test="${card.user.id ne userId}">
+					<button type="button" class="follow-btn btn btn-primary btn-sm mr-2">팔로우</button>
+					<button type="button" class="unfollow-btn btn btn-secondary btn-sm mr-2 d-none">팔로잉</button>
+				</c:if>
+					<img alt="더보기" src="/static/img/more-icon.png" width="30" class="more-btn">
+				</div>
 			</div>
 			<%-- 게시글 사진 --%>
 			<div>
@@ -52,9 +58,12 @@
 					<div>
 						<span>${comment.user.loginId}</span>
 						<span class="mx-2">${comment.comment.content}</span>
+						<%-- 내가(현재 로그인된 사용자) 쓴 댓글에만 삭제 버튼 생성 --%>
+						<c:if test="${comment.user.id eq userId}">
 						<a href="/comment/delete?commentId=${comment.comment.id}" class="comment-del-btn">						
 							<img alt="댓글 삭제" src="/static/img/x-icon.png" width="10">
 						</a>
+						</c:if>
 					</div>
 					</c:forEach>
 				</div>
@@ -181,6 +190,18 @@ $(document).ready(function() {
 			}
 		});
 		
+	});
+	
+	// 게시글 삭제
+	$('.more-btn').on('click', function() {
+		
+	});
+	
+	
+	// 팔로우 버튼
+	$('.follow-btn').on('click', function() {
+		$(this).addClass('d-none');
+		$(this).siblings().removeClass('d-none');
 	});
 });
 </script>
