@@ -28,7 +28,9 @@
 		
 			<%-- 사용자 이름 --%>
 			<div class="d-flex justify-content-between align-items-center m-2">
-				<span class="font-weight-bold ml-2">${card.user.loginId}</span>
+				<a href="#" class="username" data-user-id="${card.user.id}">
+					<span class="font-weight-bold ml-2">${card.user.loginId}</span>
+				</a>
 				<div class="d-flex">
 					<%-- 나를 제외한 사용자에게 팔로우 버튼 노출 --%>
 					<c:if test="${card.user.id ne userId}">
