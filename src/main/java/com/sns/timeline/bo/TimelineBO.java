@@ -34,8 +34,9 @@ public class TimelineBO {
 	@Autowired
 	private FollowBO followBO;
 	
-	// input: X
+	// input: userId(Integer => 비로그인/로그인 허용)
 	// output : List<CardView>
+	// 
 	public List<CardView> generateCardViewList(Integer userId) {
 		List<CardView> cardViewList = new ArrayList<>();	// []
 		
@@ -62,19 +63,14 @@ public class TimelineBO {
 			int countLike = likeBO.countLikeByPostId(post.getId());
 			cardview.setLikeCount(countLike);
 			
-			// 내가 좋아요 눌렀는지 여부
-			if (userId != null) {
-				boolean likeStatus = likeBO.likeStatus(post.getId(), userId);
-				cardview.setFilledLike(likeStatus);
-			}
+			// '내가' 좋아요 눌렀는지 여부
+			// false : 비로그인 또는 누르지 않았을 경우
+			boolean likeStatus = likeBO.likeStatus(post.getId(), userId);
+			cardview.setFilledLike(likeStatus);
 			
-			// 팔로우 여부
-			if (userId != null) {
-				boolean followStatus = followBO.followStatus(post.getUserId(), userId);
-				cardview.setFollowStatus(followStatus);
-			} else {
-				cardview.setFollowStatus(false);
-			}
+			// '내가' 팔로우를 했는지 여부
+			boolean followStatus = followBO.followStatus(post.getUserId(), userId);
+			cardview.setFollowStatus(followStatus);
 			
 			
 			// ★★★★ 마지막에 CardViewList에 cardView를 넣는다. ★★★★

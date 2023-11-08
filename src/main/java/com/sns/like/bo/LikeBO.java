@@ -11,9 +11,11 @@ public class LikeBO {
 	@Autowired
 	private LikeMapper likeMapper;
 	
+	// input : postId, userId
+	// output : X
 	public void likeToggle(int postId, int userId) {
 		// 셀렉트 => count(*)
-		if (likeMapper.selectLikeCountByPostIdUserId(postId, userId) > 0) {
+		if (likeMapper.selectLikeCountByPostIdOrUserId(postId, userId) > 0) {
 			// 삭제
 			likeMapper.deleteLikeByPostIdUserId(postId, userId);
 		} else {
@@ -22,14 +24,28 @@ public class LikeBO {
 		}
 	}
 	
+	
+	// input : postId
+	// output : int(Count)
 	public int countLikeByPostId(int postId) {
-		return likeMapper.selectLikeCountByPostId(postId);
+		return likeMapper.selectLikeCountByPostIdOrUserId(postId, null);
 	}
 	
-	public boolean likeStatus(int postId, int userId) {
-		if (likeMapper.selectLikeCountByPostIdUserId(postId, userId) > 0) {
+	
+	// input : postId, userId(Integer : 로그인 여부 판단)
+	// output : boolean(조건문에 해당하는 데이터가 있으면 true, 없으면 false)
+	public boolean likeStatus(int postId, Integer userId) {
+		// 비로그인 (db조회 필요X)
+		if (userId == null) {
+			return false;
+		}
+		
+		// 로그인 (db조회)
+		if (likeMapper.selectLikeCountByPostIdOrUserId(postId, userId) > 0) {
+			// 꽉 찬 하트
 			return true;
 		} else {
+			// 빈 하트
 			return false;
 		}
 	}

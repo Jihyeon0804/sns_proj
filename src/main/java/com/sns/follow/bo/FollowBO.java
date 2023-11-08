@@ -22,7 +22,13 @@ public class FollowBO {
 		}
 	}
 	
-	public boolean followStatus(int followedId, int followingId) {
+	public boolean followStatus(int followedId, Integer followingId) {
+		// 비로그인 상태
+		if (followingId == null) {
+			return false;
+		}
+		
+		// 로그인 상태
 		if (followMapper.selectCountFollow(followedId, followingId) > 0) {
 			// 팔로우 중
 			return true;

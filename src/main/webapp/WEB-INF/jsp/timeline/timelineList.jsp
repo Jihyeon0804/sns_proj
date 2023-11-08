@@ -58,21 +58,23 @@
 			<%-- 좋아요 --%>
 			<div class="d-flex align-items-center m-2">
 			<c:choose>
-				<%-- 좋아요를 누르지 않았을 경우(false) --%>
+				<%-- 좋아요를 누르지 않았을 경우(false) ; 빈하트 : 1) 비로그인 2) 좋아요를 누르지 않았을 경우&&로그인된 상태 --%>
 				<c:when test="${card.filledLike eq false}">
 				<a href="#" class="like-btn" data-post-id="${card.post.id}">
-					<img src="/static/img/heart-icon.png" width="20">
+					<img src="/static/img/heart-icon.png" width="20" alt="empty-heart">
 				</a>
 				</c:when>
 				
-				<%-- 좋아요를 눌렀을 경우(true) --%>
+				<%-- 좋아요를 눌렀을 경우(true) ; 꽉 찬 하트 : 좋아요를 누르지 않았을 경우&&로그인된 상태 --%>
 				<c:otherwise>
 				<a href="#" class="like-btn" data-post-id="${card.post.id}">
-					<img src="/static/img/full-heart-icon.png" width="20">
+					<img src="/static/img/full-heart-icon.png" width="20" alt="full-heart">
 				</a>
 				</c:otherwise>
 			</c:choose>
 				<span class="ml-2">좋아요</span>
+				
+				<%-- 좋아요 개수 --%>
 				<c:if test="${card.likeCount > 0}">
 					<span class="ml-2">${card.likeCount}</span>
 				</c:if>
@@ -301,7 +303,7 @@ $(document).ready(function() {
 					location.reload();
 				} else if (data.code == 500) {
 					alert(data.errorMessage);
-					location.href="/user/sign-in/view";
+					location.href="/user/sign-in-view";
 				}
 			}
 			, error:function() {
