@@ -36,6 +36,17 @@
 		</div>
 		
 		<%-- 게시물 --%>
-		<div></div>
+		<div class="feed">
+			<div class="feed">
+				<div><img src="/static/img/no-Image-100.png"></div>
+				<div><img src="/static/img/no-Image-100.png"></div>
+				<div><img src="/static/img/no-Image-100.png"></div>
+			</div>
+			<div>
+				<div><img src="/static/img/no-Image-100.png"></div>
+				<div><img src="/static/img/no-Image-100.png"></div>
+				<div><img src="/static/img/no-Image-100.png"></div>
+			</div>
+		</div>
 	</div>
 </div>
