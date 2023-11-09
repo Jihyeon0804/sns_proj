@@ -46,7 +46,13 @@
 						</a>
 						</c:if>
 					</c:if>
-					<img alt="더보기" src="/static/img/more-icon.png" width="30" class="more-btn ml-2">
+					
+					<%-- 더보기 버튼 (내가 쓴 글일 대만 노출 - 삭제, 수정) --%>
+					<c:if test="${card.user.id eq userId}">
+					<a href="#" class="more-btn ml-2" data-toggle="modal" data-target="#modal" data-post-id="${card.post.id}">
+						<img alt="더보기" src="/static/img/more-icon.png" width="30">
+					</a>
+					</c:if>
 				</div>
 			</div>
 			
@@ -115,6 +121,27 @@
 		</c:forEach>
 	</div>
 </div>
+
+
+
+<!-- Modal 창 -->
+<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<%-- 수직 기준 가운데 정렬(modal-dialog-centered), 작은 모달(modal-sm) --%>
+	<div class="modal-dialog modal-dialog-centered modal-sm">
+		<div class="modal-content text-center">
+			<%-- 게시글 삭제 --%>
+			<div class="py-3 border-bottom">
+				<a href="#" id="deletePostLink">삭제하기</a>
+			</div>
+			
+			<%-- 모달 창 닫기 --%>
+			<div class="py-3">
+				<a href="#" data-dismiss="modal">취소하기</a>
+			</div>
+		</div>
+	</div>
+</div>
+
 
 <script>
 $(document).ready(function() {
@@ -310,6 +337,48 @@ $(document).ready(function() {
 				alert("잠시후 다시 시도해 주세요.");
 			}
 			
+		});
+	});
+	
+	// 글 삭제(... 더보기 버튼 클릭) => 모달 띄우기 => 모달에 글 번호 세팅
+	$('.more-btn').on('click', function(e) {
+		e.preventDefault();
+		
+		let postId = $(this).data("post-id");	// 더보기 버튼에 넣어둔 글 번호 getting
+		// alert(postId);
+		
+		// 1개인 모달 태그에 재활용 (모달에 data-post-id에 심어두기)
+		$('#modal').data("post-id", postId);	// 모달 태그에 setting
+	});
+	
+	
+	// 모달 창에 있는 삭제하기 클릭 => 진짜 삭제
+	$('#modal #deletePostLink').on('click', function(e) {
+		e.preventDefault();
+		
+		let postId = $('#modal').data("post-id");		// getting
+		// alert(postId);
+		
+		
+		// ajax
+		$.ajax({
+			// request
+			type:"delete"
+			, url:"/post/delete"
+			, data:{"postId":postId}
+			
+			// response
+			, success:function(data) {
+				if (data.code == 200) {
+					alert("해당 글이 삭제되었습니다.");
+					location.reload();
+				} else {
+					alert(data.errorMessage);
+				}
+			}
+			, error:function(request, status, error) {
+				alert("해당 글을 삭제하는데 실패하였습니다.")
+			}
 		});
 	});
 });
