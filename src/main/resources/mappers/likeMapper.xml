@@ -52,10 +52,12 @@
 		)
 	</insert>
 	
-	<delete id="deleteLikeByPostIdUserId" parameterType="map">
-		DELETE FROM `like`
+	<delete id="deleteLikeByPostId" parameterType="int">
+		DELETE
+		FROM
+			`like`
 		WHERE
-			`postId` = #{postId} AND `userId` = #{userId}
+			`postId` = #{postId}
 	</delete>
 
 </mapper>
