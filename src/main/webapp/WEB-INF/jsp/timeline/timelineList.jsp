@@ -28,7 +28,7 @@
 		
 			<%-- 사용자 이름 --%>
 			<div class="d-flex justify-content-between align-items-center m-2">
-				<a href="#" class="username" data-user-id="${card.user.id}">
+				<a href="/user/${card.user.loginId}" class="username" data-user-id="${card.user.id}">
 					<span class="font-weight-bold ml-2">${card.user.loginId}</span>
 				</a>
 				<div class="d-flex">
@@ -381,5 +381,30 @@ $(document).ready(function() {
 			}
 		});
 	});
+	
+	// user 이름 클릭 시
+	/* $('.user-btn').on('click', function(e) {
+		e.preventDefault();
+		let userId = $(this).data("user-id");
+		let userName = $(this).data("user-login-id");
+		
+		$.ajax({
+			// request
+			, url:"/user/"+userName
+			, data:{"userId":userId}
+		
+		
+			// response
+			, success:function(data) {
+				if (data.code = 200) {
+					
+				}
+			}
+			, error:function(requets, status, error) {
+				
+			}
+			
+		});
+	}); */
 });
 </script>

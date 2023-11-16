@@ -33,9 +33,4 @@ public class UserController {
 		return "redirect:/user/sign-in-view";
 	}
 	
-	@GetMapping("/feed")
-	public String feedView(Model model) {
-		model.addAttribute("viewName", "/user/feed");
-		return "template/layout";
-	}
 }

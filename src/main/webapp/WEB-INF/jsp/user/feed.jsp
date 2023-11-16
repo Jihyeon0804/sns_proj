@@ -29,23 +29,23 @@
 		</header>
 		
 		<%-- 상세 버튼 --%>
-		<div class="d-flex justify-content-center">
+		<div class="d-flex justify-content-center my-2 border-top">
 			<button class="btn">게시물</button>
 			<button class="btn">릴스</button>
 			<button class="btn">태그됨</button>
 		</div>
 		
 		<%-- 게시물 --%>
-		<div class="feed">
+		<div>
 			<div class="feed">
-				<div><img src="/static/img/no-Image-100.png"></div>
-				<div><img src="/static/img/no-Image-100.png"></div>
-				<div><img src="/static/img/no-Image-100.png"></div>
+				<div class="feed-box"><img src="/static/img/no-Image-100.png" width="260"></div>
+				<div class="feed-box"><img src="/static/img/no-Image-100.png" width="260"></div>
+				<div class="feed-box"><img src="/static/img/no-Image-100.png" width="260"></div>
 			</div>
-			<div>
-				<div><img src="/static/img/no-Image-100.png"></div>
-				<div><img src="/static/img/no-Image-100.png"></div>
-				<div><img src="/static/img/no-Image-100.png"></div>
+			<div class="feed">
+				<div class="feed-box"><img src="/static/img/no-Image-100.png" width="260"></div>
+				<div class="feed-box"><img src="/static/img/no-Image-100.png" width="260"></div>
+				<div class="feed-box"><img src="/static/img/no-Image-100.png" width="260"></div>
 			</div>
 		</div>
 	</div>
